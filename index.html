@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-
 <body>
+
     <main class="container">
         <!----------------Ostukorv--------------------->
         <section class="section">
@@ -34,7 +34,6 @@
                 </div>
             </div>
 
-
             <h2 class="ostukorv">Ostukorv</h2>
             <div class="korv"></div>
         </section>
@@ -42,7 +41,6 @@
         <!----------------Taimer--------------------->
         <section class="section">
             <h2>Ostu sooritamiseks <span id="time"></span> </h2>
-
         </section>
 
         <!----------------Tarne vorm--------------------->
@@ -51,22 +49,22 @@
             <form action="" method="GET" id="form">
                 <div class="form-control">
                     <label for="eesnimi">Eesnimi:
-                        <input type="text" id="eesnimi">
+                        <input type="text" id="eesnimi" name="eesnimi">
                     </label>
                     <br>
                     <label for="perenimi">Perenimi:
-                        <input type="text" id="perenimi">
+                        <input type="text" id="perenimi" name="perenimi">
                     </label>
                 </div>
                 <div class="form-control">
                     <label for="epost">E-post:
-                        <input type="email" id="epost">
+                        <input type="email" id="epost" name="epost">
                     </label>
                 </div>
 
                 <div class="form-control">
                     <label for="telefon">Telefon:
-                        <input type="text" id="telefon">
+                        <input type="text" id="telefon" name="telefon">
                     </label>
                 </div>
                 <br>
@@ -77,16 +75,19 @@
 
                 <div class="form-control">
                     <h4> Tarneviisid</h4>
-                    <label for="tarne1">Pakiautomaati<input type="radio" id="tarne1"></label>
+                    <label for="tarne1">Pakiautomaati
+                        <input type="radio" id="tarne1" name="tarneviis" value="Pakiautomaati">
+                    </label>
                     <br>
-                    <label for="tarne2">Tulen ise järgi<input type="radio" id="tarne2"></label>
+                    <label for="tarne2">Tulen ise järgi
+                        <input type="radio" id="tarne2" name="tarneviis" value="Tulen ise järgi">
+                    </label>
                 </div>
 
-                <div id="tehing"> <button id="btnsubmit">Kinnita ost</button>
-
+                <div id="tehing"> 
+                    <button id="btnsubmit">Kinnita ost</button>
                 </div>
-                <div id="errorMessage">
-                </div>
+                <div id="errorMessage"></div>
 
             </form>
         </section>

@@ -18,6 +18,8 @@ lisaKorviNupud.forEach(lisaKorviNupp => {
             lisaArtikkel(toode); // selle funktsiooni loome allpool
             korv.push(toode);
             nupuOhjamine(lisaKorviNupp, toode); // selle funktsiooni loome allpool
+            arvutaKorviSumma(); // uuenda summa
+
         }
     });
 });
@@ -49,7 +51,7 @@ function nupuOhjamine(lisaKorviNupp, toode) {
     korvArtiklidD.forEach(korvArtikkelD => {
         if (korvArtikkelD.querySelector('.korv_artikkel_nimi').innerText === toode.nimi) {
             korvArtikkelD.querySelector('[data-action="suurenda_artikkel"]').addEventListener('click', () => suurendaArtikkel(toode, korvArtikkelD));
-            korvArtikkelD.querySelector('[data-action="vahenda_artikkel"]').addEventListener('click', () => decreaseItem(toode, korvArtikkelD, lisaKorviNupp));
+            korvArtikkelD.querySelector('[data-action="vahenda_artikkel"]').addEventListener('click', () => vahendaArtikkel(toode, korvArtikkelD, lisaKorviNupp));
             korvArtikkelD.querySelector('[data-action="eemalda_artikkel"]').addEventListener('click', () => eemaldaArtikkel(toode, korvArtikkelD, lisaKorviNupp));
         }
     });
@@ -60,12 +62,26 @@ function suurendaArtikkel(toode, korvArtikkelD) {
     korv.forEach(korvArtikkel => {
         if (korvArtikkel.nimi === toode.nimi) {
             korvArtikkelD.querySelector('.korv_artikkel_kogus').innerText = ++korvArtikkel.kogus;
-
         }
     });
+    arvutaKorviSumma(); // uuenda summa
+
 }
 
 //Ülesanne 5.1: lisa funktsioon toodete hulga vähendamiseks.
+//toodete arvu vähendamine
+function vahendaArtikkel(toode, korvArtikkelD, lisaKorviNupp) {
+    korv.forEach(korvArtikkel => {
+        if (korvArtikkel.nimi === toode.nimi) {
+            if (korvArtikkel.kogus > 1) {
+                korvArtikkelD.querySelector('.korv_artikkel_kogus').innerText = --korvArtikkel.kogus;
+            } else {
+                eemaldaArtikkel(toode, korvArtikkelD, lisaKorviNupp);
+            }
+        }
+    });
+    arvutaKorviSumma(); // uuenda summa
+}
 
 //toodete eemaldamine ostukorvist
 function eemaldaArtikkel(toode, korvArtikkelD, lisaKorviNupp) {
@@ -76,6 +92,7 @@ function eemaldaArtikkel(toode, korvArtikkelD, lisaKorviNupp) {
     if (korv.length < 1) {
         document.querySelector('.korv-jalus').remove();
     }
+    arvutaKorviSumma(); // uuenda summa
 }
 
 //ostukorvi jaluse ehk alumiste nuppude lisamine
@@ -104,11 +121,29 @@ function tuhjendaKorv() {
         lisaKorviNupp.innerText = 'Lisa ostukorvi';
         lisaKorviNupp.disabled = false;
     });
+    arvutaKorviSumma(); // uuenda summa
 }
 
 
 //Ülesanne 5.2: lisa funktsioon, mis arvutab ostukorvi summa kokku.
 
+function arvutaKorviSumma() {
+    let kokkuSumma = 0;
+    korv.forEach(korvArtikkel => {
+        kokkuSumma += parseFloat(korvArtikkel.hind) * korvArtikkel.kogus;
+    });
+
+    const summaElem = document.querySelector('.korv-summa');
+    if (kokkuSumma > 0) {
+        if (!summaElem) {
+            korviSisu.insertAdjacentHTML('afterend', `<div class="korv-summa">Kokku: ${kokkuSumma.toFixed(2)} €</div>`);
+        } else {
+            summaElem.innerText = `Kokku: ${kokkuSumma.toFixed(2)} €`;
+        }
+    } else if (summaElem) {
+        summaElem.remove();
+    }
+}
 
 //-------------------------2. osa Taimer ------------------------
 
@@ -143,21 +178,30 @@ function alustaTaimer(kestvus, kuva) {
     setInterval(taimer, 1000);
 
 };
+function kasSisaldabNumbreid(tekst) {
+    for (let i = 0; i < tekst.length; i++) {
+        if (!isNaN(tekst[i]) && tekst[i] !== " ") { // KOntrollib, kas tähemärk on number, kuid mitte tühik
+            return true;
+        }
+    }
+    return false;
+}
 
-window.onload = function () {
+function kassa(){
     let taimeriAeg = 60 * 2,
         kuva = document.getElementById("time");
     alustaTaimer(taimeriAeg, kuva);
-};
-
+}
+document.querySelector('[data-action="kassa"]').addEventListener('click', () => kassa());
 
 //-------------------------3. osa Tarne vorm ------------------------
 
 const form = document.querySelector("form");
 const eesnimi = document.getElementById("eesnimi");
 const perenimi = document.getElementById("perenimi");
+const telefon = document.getElementById("telefon"); // minu kood
 const kinnitus = document.getElementById("kinnitus");
-
+const raadionupud = document.getElementsByName("tarneviis"); // minu kood
 const errorMessage = document.getElementById("errorMessage");
 
 form.addEventListener("submit", (e) => {
@@ -165,11 +209,34 @@ form.addEventListener("submit", (e) => {
     const errors = [];
 
     if (eesnimi.value.trim() === "") {
-        errors.push("Sisesta eesnimi")
+        errors.push("Sisesta eesnimi");
+    } else if (kasSisaldabNumbreid(eesnimi.value)) {
+        errors.push("Eesnimi ei tohi sisaldada numbreid");
     }
 
     if (perenimi.value.trim() === "") {
-        errors.push("Sisesta perenimi")
+        errors.push("Sisesta perenimi");
+    } else if (kasSisaldabNumbreid(perenimi.value)) {
+        errors.push("Perenimi ei tohi sisaldada numbreid");
+    }
+
+    // Telefoni kontroll (minu kood)
+    if (telefon.value.trim() === "") {
+        errors.push("Sisesta telefoninumber");
+    } else if (telefon.value.length < 6 || !/^\d+$/.test(telefon.value)) {
+        errors.push("Telefoninumber peab olema vähemalt 6 sümbolit pikk ja sisaldama ainult numbreid");
+    }
+
+    // Raadionuppude kontroll (minu kood)
+    let raadionuppValitud = false;
+    raadionupud.forEach(raadionupp => {
+        if (raadionupp.checked) {
+            raadionuppValitud = true;
+        }
+    });
+
+    if (!raadionuppValitud) {
+        errors.push("Palun vali tarneviis");
     }
 
     if (!kinnitus.checked) {
@@ -177,15 +244,12 @@ form.addEventListener("submit", (e) => {
     }
 
     if (errors.length > 0) {
-        e.preventDefault();
         errorMessage.innerHTML = errors.join(', ');
-    }
-    else {
+    } else {
         errorMessage.innerHTML = "";
-
+        form.submit(); 
     }
-
-})
+});
 
 /* Ülesanne 5.3: täienda vormi sisendi kontrolli:
 - eesnime ja perenime väljal ei tohi olla numbreid;
