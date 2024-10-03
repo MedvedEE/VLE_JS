@@ -67,6 +67,12 @@
                         <input type="text" id="telefon" name="telefon">
                     </label>
                 </div>
+                <!-- minu kood: postiindeks -->
+                <div class="form-control">
+                    <label for="postiindeks">Postiindeks:
+                        <input type="text" id="postiindeks">
+                    </label>
+                </div>
                 <br>
                 <div class="form-control">
                     <label for="kinnitus">Nõustun tingimustega
@@ -74,15 +80,16 @@
                 </div>
 
                 <div class="form-control">
-                    <h4> Tarneviisid</h4>
-                    <label for="tarne1">Pakiautomaati
-                        <input type="radio" id="tarne1" name="tarneviis" value="Pakiautomaati">
+                    <h4>Tarneviisid</h4>
+                    <label for="tarne1">Pakiautomaati (5.00 €)
+                        <input type="radio" id="tarne1" name="tarneviis" value="5" checked>
                     </label>
                     <br>
-                    <label for="tarne2">Tulen ise järgi
-                        <input type="radio" id="tarne2" name="tarneviis" value="Tulen ise järgi">
+                    <label for="tarne2">Tulen ise järgi (tasuta)
+                        <input type="radio" id="tarne2" name="tarneviis" value="0">
                     </label>
                 </div>
+                
 
                 <div id="tehing"> 
                     <button id="btnsubmit">Kinnita ost</button>

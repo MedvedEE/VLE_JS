@@ -23,6 +23,11 @@ lisaKorviNupud.forEach(lisaKorviNupp => {
         }
     });
 });
+document.querySelectorAll('input[name="tarneviis"]').forEach(tarneviis => { // Uuenda ostukorvi maksuvus, kui uuendatakse tarneviisi
+    tarneviis.addEventListener('change', () => {
+        arvutaKorviSumma(); 
+    });
+});
 
 //funktsioon toote lisamiseks
 function lisaArtikkel(toode) {
@@ -129,9 +134,15 @@ function tuhjendaKorv() {
 
 function arvutaKorviSumma() {
     let kokkuSumma = 0;
+
     korv.forEach(korvArtikkel => {
         kokkuSumma += parseFloat(korvArtikkel.hind) * korvArtikkel.kogus;
     });
+
+    const valitudTarne = document.querySelector('input[name="tarneviis"]:checked');
+    if (valitudTarne) {
+        kokkuSumma += parseFloat(valitudTarne.value);
+    }
 
     const summaElem = document.querySelector('.korv-summa');
     if (kokkuSumma > 0) {
@@ -199,9 +210,10 @@ document.querySelector('[data-action="kassa"]').addEventListener('click', () => 
 const form = document.querySelector("form");
 const eesnimi = document.getElementById("eesnimi");
 const perenimi = document.getElementById("perenimi");
-const telefon = document.getElementById("telefon"); // minu kood
+const telefon = document.getElementById("telefon");
 const kinnitus = document.getElementById("kinnitus");
-const raadionupud = document.getElementsByName("tarneviis"); // minu kood
+const raadionupud = document.getElementsByName("tarneviis"); 
+const postiindeks = document.getElementById("postiindeks"); // minu kood: postiindeksi element
 const errorMessage = document.getElementById("errorMessage");
 
 form.addEventListener("submit", (e) => {
@@ -219,15 +231,19 @@ form.addEventListener("submit", (e) => {
     } else if (kasSisaldabNumbreid(perenimi.value)) {
         errors.push("Perenimi ei tohi sisaldada numbreid");
     }
-
-    // Telefoni kontroll (minu kood)
+    // minu kood: postiindeksi kontroll
+    if (postiindeks.value.trim() === "") {
+        errors.push("Sisesta postiindeks");
+    } else if (postiindeks.value.length < 5 || isNaN(postiindeks.value) || postiindeks.value.includes(" ")) {
+        errors.push("Postiindeks peab olema vähemalt 5 numbrit pikk ja sisaldama ainult numbreid");
+    }
     if (telefon.value.trim() === "") {
         errors.push("Sisesta telefoninumber");
-    } else if (telefon.value.length < 6 || !/^\d+$/.test(telefon.value)) {
-        errors.push("Telefoninumber peab olema vähemalt 6 sümbolit pikk ja sisaldama ainult numbreid");
+    } else if (telefon.value.length < 6 || isNaN(telefon.value) || telefon.value.includes(" ")) {
+        errors.push("Telefoninumber peab olema vähemalt 6 numbrit pikk ja sisaldama ainult numbreid");
     }
+    
 
-    // Raadionuppude kontroll (minu kood)
     let raadionuppValitud = false;
     raadionupud.forEach(raadionupp => {
         if (raadionupp.checked) {
@@ -247,7 +263,6 @@ form.addEventListener("submit", (e) => {
         errorMessage.innerHTML = errors.join(', ');
     } else {
         errorMessage.innerHTML = "";
-        form.submit(); 
     }
 });
 
