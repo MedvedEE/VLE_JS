@@ -260,6 +260,7 @@ form.addEventListener("submit", (e) => {
     }
 
     if (errors.length > 0) {
+        e.preventDefault();
         errorMessage.innerHTML = errors.join(', ');
     } else {
         errorMessage.innerHTML = "";
