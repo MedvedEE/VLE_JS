@@ -49,25 +49,24 @@
             <form action="" method="GET" id="form">
                 <div class="form-control">
                     <label for="eesnimi">Eesnimi:
-                        <input type="text" id="eesnimi" name="eesnimi">
+                        <input type="text" id="eesnimi">
                     </label>
                     <br>
                     <label for="perenimi">Perenimi:
-                        <input type="text" id="perenimi" name="perenimi">
+                        <input type="text" id="perenimi">
                     </label>
                 </div>
                 <div class="form-control">
                     <label for="epost">E-post:
-                        <input type="email" id="epost" name="epost">
+                        <input type="email" id="epost">
                     </label>
                 </div>
 
                 <div class="form-control">
                     <label for="telefon">Telefon:
-                        <input type="text" id="telefon" name="telefon">
+                        <input type="text" id="telefon">
                     </label>
                 </div>
-                <!-- minu kood: postiindeks -->
                 <div class="form-control">
                     <label for="postiindeks">Postiindeks:
                         <input type="text" id="postiindeks">
@@ -80,21 +79,17 @@
                 </div>
 
                 <div class="form-control">
-                    <h4>Tarneviisid</h4>
-                    <label for="tarne1">Pakiautomaati (5.00 €)
-                        <input type="radio" id="tarne1" name="tarneviis" value="5" checked>
-                    </label>
+                    <h4> Tarneviisid</h4>
+                    <label for="tarne1">Pakiautomaati<input type="radio" id="tarne1"></label>
                     <br>
-                    <label for="tarne2">Tulen ise järgi (tasuta)
-                        <input type="radio" id="tarne2" name="tarneviis" value="0">
-                    </label>
+                    <label for="tarne2">Tulen ise järgi<input type="radio" id="tarne2"></label>
                 </div>
-                
 
-                <div id="tehing"> 
-                    <button id="btnsubmit">Kinnita ost</button>
+                <div id="tehing"> <button id="btnsubmit">Kinnita ost</button>
+
                 </div>
-                <div id="errorMessage"></div>
+                <div id="errorMessage">
+                </div>
 
             </form>
         </section>
