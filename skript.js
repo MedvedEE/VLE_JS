@@ -203,7 +203,6 @@ function kassa(){
         kuva = document.getElementById("time");
     alustaTaimer(taimeriAeg, kuva);
 }
-document.querySelector('[data-action="kassa"]').addEventListener('click', () => kassa());
 
 //-------------------------3. osa Tarne vorm ------------------------
 
