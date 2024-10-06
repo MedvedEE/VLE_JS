@@ -243,7 +243,6 @@ form.addEventListener("submit", (e) => {
         errors.push("Telefoninumber peab olema vähemalt 6 numbrit pikk ja sisaldama ainult numbreid");
     }
     
-
     let raadionuppValitud = false;
     raadionupud.forEach(raadionupp => {
         if (raadionupp.checked) {
